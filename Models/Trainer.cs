@@ -7,5 +7,9 @@
         public string Expertise { get; set; }
         public string ContactNumber { get; set; }
         public string Email { get; set; }
+        public string Specialization { get; set; }
+
+
+        public ICollection<WorkoutPlan> WorkoutPlans { get; set; }
     }
 }

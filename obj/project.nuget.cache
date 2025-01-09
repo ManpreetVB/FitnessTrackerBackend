@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oYPIA3/BMXuD5EO9tRpT0J0ElymmHeWAd6RKxSq0X41DN8dATL/Xmuzed7PDvKDDsf/39/GJVUiCFL+6nUf36g==",
+  "dgSpecHash": "CHaN+N8vBCBgxL1JLcRLWuQvNF9qw5V0HjDhlpGNtIkm1TQR4neWAontGVoXINj7WcXR8evZt/ap4IEUGz9keQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\kaurk\\Learning\\Fitness Tracker\\Fitness Tracker\\Fitness Tracker.csproj",
   "expectedPackageFiles": [
@@ -59,6 +59,7 @@
     "C:\\Users\\kaurk\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\kaurk\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\kaurk\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
+    "C:\\Users\\kaurk\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.0\\microsoft.aspnetcore.authentication.jwtbearer.6.0.0.nupkg.sha512",
     "C:\\Users\\kaurk\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.0\\microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
     "C:\\Users\\kaurk\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "C:\\Users\\kaurk\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.2\\microsoft.codeanalysis.analyzers.3.3.2.nupkg.sha512",
