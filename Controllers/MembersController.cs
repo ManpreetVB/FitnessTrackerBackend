@@ -104,5 +104,49 @@ namespace Fitness_Tracker.Controllers
         {
             return _context.Members.Any(e => e.MemberId == id);
         }
-    }
+        [HttpGet]
+        public IActionResult GetMembers(
+       [FromQuery] int page = 1,          // Pagination: Page number
+       [FromQuery] int size = 10,         // Pagination: Page size
+       [FromQuery] string sortBy = "Name", // Sorting: Field to sort by
+       [FromQuery] string order = "asc",  // Sorting: asc/desc
+       [FromQuery] string goal = null)    // Filtering: Fitness goal
+        {
+            // Start with the base query
+            var query = _context.Members.AsQueryable();
+
+            // Apply filtering
+            if (!string.IsNullOrEmpty(goal))
+            {
+                query = query.Where(m => m.FitnessGoal.Contains(goal));
+            }
+
+            // Apply sorting
+            if (order.ToLower() == "asc")
+            {
+                query = query.OrderBy(m => EF.Property<object>(m, sortBy));
+            }
+            else
+            {
+                query = query.OrderByDescending(m => EF.Property<object>(m, sortBy));
+            }
+
+            // Apply pagination
+            var totalRecords = query.Count();
+            var members = query
+                .Skip((page - 1) * size)
+                .Take(size)
+                .ToList();
+
+            // Return paginated response
+            return Ok(new
+            {
+                TotalRecords = totalRecords,
+                Page = page,
+                PageSize = size,
+                Members = members
+            });
+
+        }
+        }
 }

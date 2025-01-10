@@ -104,5 +104,50 @@ namespace Fitness_Tracker.Controllers
         {
             return _context.Trainers.Any(e => e.TrainerId == id);
         }
+
+        [HttpGet]
+        public IActionResult GetTrainers(
+       [FromQuery] int page = 1,          // Pagination: Page number
+       [FromQuery] int size = 10,         // Pagination: Page size
+       [FromQuery] string sortBy = "Name", // Sorting: Field to sort by
+       [FromQuery] string order = "asc",  // Sorting: asc/desc
+       [FromQuery] string expertise = null // Filtering: Expertise
+   )
+        {
+            // Base query
+            var query = _context.Trainers.AsQueryable();
+
+            // Filtering by expertise
+            if (!string.IsNullOrEmpty(expertise))
+            {
+                query = query.Where(t => t.Expertise.Contains(expertise));
+            }
+
+            // Sorting
+            if (order.ToLower() == "asc")
+            {
+                query = query.OrderBy(t => EF.Property<object>(t, sortBy));
+            }
+            else
+            {
+                query = query.OrderByDescending(t => EF.Property<object>(t, sortBy));
+            }
+
+            // Pagination
+            var totalRecords = query.Count();
+            var trainers = query
+                .Skip((page - 1) * size)
+                .Take(size)
+                .ToList();
+
+            // Return paginated response
+            return Ok(new
+            {
+                TotalRecords = totalRecords,
+                Page = page,
+                PageSize = size,
+                Trainers = trainers
+            });
+        }
     }
 }

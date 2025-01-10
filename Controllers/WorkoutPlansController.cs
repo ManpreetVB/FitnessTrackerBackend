@@ -104,5 +104,45 @@ namespace Fitness_Tracker.Controllers
         {
             return _context.WorkoutPlans.Any(e => e.WorkoutPlanId == id);
         }
+
+        [HttpGet]
+        public IActionResult GetWorkoutPlans(
+    [FromQuery] int page = 1,
+    [FromQuery] int size = 10,
+    [FromQuery] string sortBy = "Name",
+    [FromQuery] string order = "asc",
+    [FromQuery] int? trainerId = null) // Filtering by TrainerId
+        {
+            var query = _context.WorkoutPlans.AsQueryable();
+
+            if (trainerId.HasValue)
+            {
+                query = query.Where(wp => wp.TrainerId == trainerId.Value);
+            }
+
+            if (order.ToLower() == "asc")
+            {
+                query = query.OrderBy(wp => EF.Property<object>(wp, sortBy));
+            }
+            else
+            {
+                query = query.OrderByDescending(wp => EF.Property<object>(wp, sortBy));
+            }
+
+            var totalRecords = query.Count();
+            var workoutPlans = query
+                .Skip((page - 1) * size)
+                .Take(size)
+                .ToList();
+
+            return Ok(new
+            {
+                TotalRecords = totalRecords,
+                Page = page,
+                PageSize = size,
+                WorkoutPlans = workoutPlans
+            });
+        }
+
     }
 }
