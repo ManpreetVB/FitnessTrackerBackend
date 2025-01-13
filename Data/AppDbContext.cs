@@ -10,6 +10,7 @@ namespace Fitness_Tracker.Data
         public DbSet<Member> Members { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<WorkoutPlan> WorkoutPlans { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure One-to-Many Relationship
