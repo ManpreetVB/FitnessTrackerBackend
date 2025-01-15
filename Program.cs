@@ -1,4 +1,5 @@
 using Fitness_Tracker.Data;
+using Fitness_Tracker.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -66,6 +67,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+builder.Services.AddScoped<AuthService>();
 
 // Apply CORS
 app.UseCors("AllowSpecificOrigins");
