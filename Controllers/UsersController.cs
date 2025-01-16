@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Fitness_Tracker.Data;
 using Fitness_Tracker.Models;
 using Fitness_Tracker.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Fitness_Tracker.Controllers
 {
@@ -35,6 +39,43 @@ namespace Fitness_Tracker.Controllers
             }
 
             return Ok("Registration successful.");
+        }
+
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(Login dto)
+        {
+            var user = await _authService.ValidateUser(dto.Username, dto.Password);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
+            var token = GenerateJwtToken(user);
+
+            return Ok(new { Token = token });
+        }
+        private string GenerateJwtToken(User user)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Email, user.Email)
+        };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         [HttpGet]
