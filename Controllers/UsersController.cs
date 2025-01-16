@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fitness_Tracker.Controllers
 {
@@ -27,7 +28,7 @@ namespace Fitness_Tracker.Controllers
             _authService = authService;
             _config = config;
         }
-
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(Register dto)
         {
@@ -42,7 +43,7 @@ namespace Fitness_Tracker.Controllers
         }
 
 
-
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(Login dto)
         {
@@ -77,7 +78,7 @@ namespace Fitness_Tracker.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -134,7 +135,7 @@ namespace Fitness_Tracker.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
